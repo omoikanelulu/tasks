@@ -25,9 +25,9 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Task $task)
     {
-        //
+        return view('tasks.create', compact($task));
     }
 
     /**
@@ -38,18 +38,25 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $task = new Task();
+        $task->fill($request->all());
+        $task->user_id = Auth::user()->id;
+        $task->registration_date = date('Y-m-d');
+        $task->save();
+
+        return redirect()->route('tasks.show', $task);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Task $task)
     {
-        //
+        $this->checkUserId($task);
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -84,5 +91,21 @@ class TaskController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * ログインユーザのidとタスクのユーザidが異なる場合はHttpExceptionを出す
+     *
+     * @param Task $task
+     * @param integer $status
+     * @return void
+     */
+    public function checkUserId(Task $task, int $status = 404)
+    {
+        // ログインユーザのidとタスクのユーザidを比較し異なる場合は
+        if (Auth::user()->id != $task->user_id) {
+            // ステータスコードを返却
+            abort($status);
+        }
     }
 }

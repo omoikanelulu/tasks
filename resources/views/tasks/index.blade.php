@@ -3,7 +3,7 @@
 @section('content')
     <h1>タスク一覧</h1>
 
-    <table>
+    <table class="table">
         <tr>
             <th>登録日</th>
             <th>タイトル</th>
@@ -16,6 +16,9 @@
                 <td>{{ $task->title }}</td>
                 <td>{{ $task->expiration_date }}</td>
                 <td>{{ $task->completion_date }}</td>
+                <td>
+                    <a href="{{route('tasks.show', $task)}}" class="btn btn-primary">詳細</a>
+                </td>
             </tr>
         @endforeach
     </table>
