@@ -18,6 +18,7 @@
                 <td>{{ $task->completion_date }}</td>
                 <td>
                     <a href="{{route('tasks.show', $task)}}" class="btn btn-primary">詳細</a>
+                    <a href="{{route('tasks.edit', $task)}}" class="btn btn-warning">修正</a>
                 </td>
             </tr>
         @endforeach

@@ -43,7 +43,6 @@ class TaskController extends Controller
         $task->user_id = Auth::user()->id;
         $task->registration_date = date('Y-m-d');
         $task->save();
-
         return redirect()->route('tasks.show', $task);
     }
 
@@ -62,24 +61,28 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Task $task)
     {
-        //
+        $this->checkUserId($task);
+        return view('tasks.edit', compact('task'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        $this->checkUserID($task);
+        $task->fill($request->all());
+        $task->save();
+        return redirect()->route('tasks.show', $task);
     }
 
     /**

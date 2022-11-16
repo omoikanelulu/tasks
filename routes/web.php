@@ -21,4 +21,9 @@ Auth::routes();
 
 Route::resource('tasks', App\Http\Controllers\TaskController::class)->middleware('auth');
 
+// phpinfoを表示する
+Route::get('/info', function () {
+    return phpinfo();
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
