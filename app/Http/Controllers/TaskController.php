@@ -16,7 +16,11 @@ class TaskController extends Controller
     public function index()
     {
         // ん？？？？
-        $tasks = Auth::user()->task()->get();
+        $tasks = Auth::user()->task()
+        ->orderBy('completion_date', 'asc')
+        ->orderBy('expiration_date', 'asc')
+        ->orderBy('registration_date', 'asc')
+        ->paginate(5);
         return view('tasks.index', compact('tasks'));
     }
 
@@ -91,15 +95,17 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        $this->checkUserId($task);
+        $task->delete();
+        return redirect()->route('tasks.index');
     }
 
     /**
      * ログインユーザのidとタスクのユーザidが異なる場合はHttpExceptionを出す
      *
-     * @param Task $task
+     * @param \App\Models\Task $task
      * @param integer $status
      * @return void
      */

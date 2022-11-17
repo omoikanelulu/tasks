@@ -17,10 +17,18 @@
                 <td>{{ $task->expiration_date }}</td>
                 <td>{{ $task->completion_date }}</td>
                 <td>
-                    <a href="{{route('tasks.show', $task)}}" class="btn btn-primary">詳細</a>
-                    <a href="{{route('tasks.edit', $task)}}" class="btn btn-warning">修正</a>
+                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="form-inline">
+                        @method('DELETE')
+                        @csrf
+                        <a href="{{ route('tasks.show', $task) }}" class="btn btn-primary">詳細</a>
+                        <a href="{{ route('tasks.edit', $task) }}" class="btn btn-warning">修正</a>
+                        <button type="submit" onclick="return confirm('本当に削除しますか？');" class="btn btn-danger">削除</button>
+                    </form>
                 </td>
             </tr>
         @endforeach
     </table>
+
+    {{ $tasks->links() }}
+    
 @endsection
