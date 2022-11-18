@@ -11,11 +11,16 @@
             <th>完了日</th>
         </tr>
         @foreach ($tasks as $task)
-            <tr>
-                <td>{{ $task->registration_date }}</td>
+            <tr
+                class="
+            @if (!is_null($task->completion_date)) text-decoration-line-through
+            @elseif($task->expiration_date < date('Y-m-d'))
+            alert alert-danger @endif
+            ">
+                <td>{{ $task->registration_date->format('Y年m月d日') }}</td>
                 <td>{{ $task->title }}</td>
-                <td>{{ $task->expiration_date }}</td>
-                <td>{{ $task->completion_date }}</td>
+                <td>{{ $task->expiration_date->format('Y年m月d日') }}</td>
+                <td>{{ !is_null($task->completion_date) ? $task->completion_date->format('Y年m月d日') : '' }}</td>
                 <td>
                     <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="form-inline">
                         @method('DELETE')
@@ -30,5 +35,4 @@
     </table>
 
     {{ $tasks->links() }}
-    
 @endsection

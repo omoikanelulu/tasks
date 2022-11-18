@@ -20,6 +20,17 @@ class Task extends Model
     ];
 
     /**
+     * 日付のフォーマットを変更するカラム
+     *
+     * @var array
+     */
+    protected $dates = [
+        'expiration_date',
+        'completion_date',
+        'registration_date',
+    ];
+
+    /**
      * リレーション
      */
     public function User()

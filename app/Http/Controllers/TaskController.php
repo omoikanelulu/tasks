@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 
@@ -15,7 +16,6 @@ class TaskController extends Controller
      */
     public function index()
     {
-        // ん？？？？
         $tasks = Auth::user()->task()
         ->orderBy('completion_date', 'asc')
         ->orderBy('expiration_date', 'asc')
@@ -40,7 +40,7 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
         $task = new Task();
         $task->fill($request->all());
@@ -81,7 +81,7 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
         $this->checkUserID($task);
         $task->fill($request->all());
