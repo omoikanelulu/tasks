@@ -17,7 +17,7 @@
         </ul>
     @endif
 
-    <form action="{{ route('tasks.store') }}" method="post"">
+    <form action="{{ route('tasks.store') }}" method="post">
         @csrf
         <div class="mb-3">
             <label for="title">タイトル</label>
@@ -32,7 +32,7 @@
         <div class="mb-3">
             <label for="expiration_date">期限日</label>
             <input class="form-control @error('expiration_date') is-invalid @enderror" type="date" name="expiration_date"
-                id="expiration_date" value="{{ old('expiration_date') }} aria-describedby="validateTitle"">
+                id="expiration_date" value="{{ old('expiration_date') }}" aria-describedby="validateTitle">
             @error('expiration_date')
                 <div class="invalid-feedback" id="validateTitle">
                     {{ $message }}
